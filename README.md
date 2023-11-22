@@ -1,15 +1,49 @@
 # Enter/Exit Page Transitions with Next.js 14
 
-`npm i`
+## Getting Started
 
-`npm run dev`
+To set up the project, run the following commands in your terminal:
 
-Next.js 13 introduced the App folder and removed support for next/router, a workaroud to implement page transitions is to use a custom <Link> Component that implements navigation progamatically, intercepting the route and calling the route transition via the Context API.
+```bash
+npm i
+npm run dev
+```
 
-This is a skeleton to use as Base for Larger Projects.
+With the release of Next.js 13, the App folder was introduced, which resulted in the removal of support for next/router. As a workaround to implement page transitions, one can utilize a custom <Link> Component. This component facilitates navigation programmatically by intercepting the route and invoking the route transition via the Context API.
 
-Notes:
+## Implementation Details
 
-1. To transition with Forward/Backward browser navigation add a useEffect without a depedency array add follow a similar logic so it runs every time.
+This project structure serves as a base for larger projects. Here are a few important notes to consider during implementation:
 
-2. To use framer motion you can just replaced the init / in / out functions with the respective initial / animate / exit behavior, and conditionally render the loader based on the Context.
+### Forward/Backward Browser Navigation
+
+To enable smooth transitions with forward/backward browser navigation, consider utilizing the useEffect hook without a dependency array. This approach makes the transition logic execute each time the navigation occurs.
+
+### Integration with Framer Motion
+
+For integration with Framer Motion, replace the init/_enter/_exit functions with the respective initial/animate/exit behavior.
+
+Add a FINISHED = "FINISHED" property to the LOADING_STATES enum.
+
+```typescript
+export enum LOADING_STATES {
+  INIT = "INITIALIZED",
+  LOADING = "PENDING",
+  LOADED = "COMPLETE",
+  FINISHED = "FINISHED",
+}
+```
+
+Add logic to the _enter function so it adds the finished state if the animation has been loaded.
+
+```typescript
+if (loading === LOADING_STATES.LOADED) {
+  //once animation is complete
+  setLoading(LOADING_STATES.FINISHED);
+}
+```
+
+Conditionally render the loader based on the FINISHED state.
+
+```typescript
+{loading != LOADING_STATES.FINISHED && (<>Component</>)}
