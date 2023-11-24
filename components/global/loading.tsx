@@ -36,7 +36,7 @@ export const Loading = () => {
       duration: 1,
       ease: "power3.inOut",
       onComplete: () => {
-        setLoading(LOADING_STATES.LOADED);
+        if (loading === LOADING_STATES.INIT) setLoading(LOADING_STATES.LOADED);
       },
     });
   };
