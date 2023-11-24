@@ -5,6 +5,7 @@ import {
 } from "@/context/navigation.context";
 import Link from "next/link";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 type NavigateProps = {
   href: string;
@@ -14,17 +15,16 @@ type NavigateProps = {
 export default function Navigate({ href, children }: NavigateProps) {
   const { goToRoute } = useNavigationContext();
   const { loading, setLoading } = useNavigationContext();
+  const pathname = usePathname();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     goToRoute(href);
   };
 
-  useEffect(() => {
-    return () => {
-      setLoading(LOADING_STATES.LOADED);
-    };
-  }, []);
+  useLayoutEffect(() => {
+    setLoading(LOADING_STATES.LOADED);
+  }, [pathname]);
 
   return (
     <Link prefetch passHref href={href} legacyBehavior>
