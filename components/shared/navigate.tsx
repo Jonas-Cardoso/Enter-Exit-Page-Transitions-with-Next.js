@@ -4,7 +4,7 @@ import {
   useNavigationContext,
 } from "@/context/navigation.context";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { usePathname } from "next/navigation";
 
 type NavigateProps = {
@@ -14,7 +14,7 @@ type NavigateProps = {
 
 export default function Navigate({ href, children }: NavigateProps) {
   const { goToRoute } = useNavigationContext();
-  const { loading, setLoading } = useNavigationContext();
+  const { setLoading } = useNavigationContext();
   const pathname = usePathname();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
